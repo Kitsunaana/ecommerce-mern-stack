@@ -6,6 +6,7 @@ import isEmail from "validator/es/lib/isEmail";
 import equals from "validator/es/lib/equals";
 import {showError, showSuccess} from "../helpers/message";
 import {showLoading} from "../helpers/loading";
+import {signup} from "../api/auth";
 
 const Signup = () => {
     const [ formData, setFormData ] = useState({
@@ -24,7 +25,20 @@ const Signup = () => {
         if (isEmpty(username) || isEmpty(email) || isEmpty(password) || isEmpty(password2)) setFormData({ ...formData, errorMessage: "Все поля обязательны" })
         else if (!isEmail(email)) setFormData({ ...formData, errorMessage: "Некорректно набрана почта" })
         else if (!equals(password, password2)) setFormData({ ...formData, errorMessage: "Не совпадают пароли" })
-        else setFormData({ ...formData, successMessage: "Регистрация прошла успешно" })
+        else {
+            const { username, password, email } = formData
+            const data = { username, password, email }
+
+            setFormData({ ...formData, loading: true })
+
+            signup(data)
+                .then(response => {
+                    setFormData({ username: '', email: '', password: '', password2: '', successMessage: response.data.successMessage, errorMessage: "", loading: false })
+                })
+                .catch((error) => {
+                    setFormData({ ...formData, errorMessage: error })
+                })
+        }
     }
 
     const showSignupForm = () => (
