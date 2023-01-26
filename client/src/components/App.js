@@ -8,7 +8,7 @@ import NotFound from "./NotFound";
 export const App = () => {
     return (
         <BrowserRouter>
-             <Header />
+            <Header />
             <main>
                 <Switch>
                     <Route exact path='/' component={Home} />
