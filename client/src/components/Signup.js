@@ -7,6 +7,7 @@ import equals from "validator/es/lib/equals";
 import {showError, showSuccess} from "../helpers/message";
 import {showLoading} from "../helpers/loading";
 import {signup} from "../api/auth";
+import {response} from "express";
 
 const Signup = () => {
     const [ formData, setFormData ] = useState({
@@ -36,7 +37,7 @@ const Signup = () => {
                     setFormData({ username: '', email: '', password: '', password2: '', successMessage: response.data.successMessage, errorMessage: "", loading: false })
                 })
                 .catch((error) => {
-                    setFormData({ ...formData, errorMessage: error })
+                    setFormData({ ...formData, errorMessage: error.response.data.errorMessage })
                 })
         }
     }
