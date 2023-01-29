@@ -1,8 +1,7 @@
 const express = require('express')
-const { signupValidator, validatorResult } = require("../middleware/validator");
-
 const router = express.Router()
+const { signupValidator, validatorResults } = require('../middleware/validator')
 
-router.post('/signup', signupValidator, validatorResult)
+router.post('/signup', signupValidator, validatorResults)
 
 module.exports = router
